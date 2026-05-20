@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Array Methods (မြန်မာလို)</title>
+    
+    <!-- Reveal.js Core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <!-- Reveal.js Theme (Dark/Night) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/night.css">
+    <!-- Highlight.js for Code Formatting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Burmese (Padauk) -->
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom Styling for Better Typography and Aesthetics */
+        .reveal {
+            font-family: 'Padauk', 'Pyidaungsu', Tahoma, Arial, sans-serif !important;
+        }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+            font-family: 'Padauk', 'Pyidaungsu', sans-serif !important;
+            text-transform: none;
+            font-weight: 700;
+        }
+        .js-yellow {
+            color: #F7DF1E !important; /* JavaScript Yellow */
+        }
+        .text-white {
+            color: #FFFFFF !important;
+        }
+        .reveal p, .reveal li {
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+        .reveal pre {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            width: 100%;
+            font-size: 0.65em;
+        }
+        .reveal pre code {
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .highlight-box {
+            background-color: rgba(247, 223, 30, 0.1);
+            border-left: 5px solid #F7DF1E;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        .slide-number {
+            font-size: 24px !important;
+            color: #F7DF1E !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section>
+                <i class="fab fa-js-square" style="font-size: 100px; color: #F7DF1E;"></i>
+                <h1 class="js-yellow">JavaScript</h1>
+                <h3>Array Method များအကြောင်း</h3>
+                <p>မြန်မာလို ပြည့်ပြည့်စုံစုံ ရှင်းလင်းချက် (Slide ၅၀)</p>
+                <p><small>Web-based Presentation</small></p>
+            </section>
+
+            <!-- Slide 2: Table of Contents -->
+            <section>
+                <h2 class="js-yellow">မာတိကာ (Contents)</h2>
+                <ul style="font-size: 0.9em;">
+                    <li class="fragment">Array ဆိုတာ ဘာလဲ?</li>
+                    <li class="fragment">Array အစ/အဆုံး ထည့်ခြင်း နှင့် ဖယ်ထုတ်ခြင်း</li>
+                    <li class="fragment">Array များ ပေါင်းခြင်း နှင့် ဖြတ်ထုတ်ခြင်း</li>
+                    <li class="fragment">Data များ ရှာဖွေခြင်း (Finding Elements)</li>
+                    <li class="fragment">Array ပတ်လည်လှည့်ခြင်း (Iteration & Transformation)</li>
+                    <li class="fragment">စီစဉ်ခြင်း (Sorting & Reversing)</li>
+                </ul>
+            </section>
+
+            <!-- Slide 3: What is Array -->
+            <section>
+                <h2><span class="js-yellow">Array</span> ဆိုတာ ဘာလဲ?</h2>
+                <div class="highlight-box">
+                    Array ဆိုတာ Variable တစ်ခုတည်းမှာ Data အများကြီးကို အစဉ်လိုက် သိမ်းဆည်းထားနိုင်တဲ့ Data Structure တစ်ခုဖြစ်ပါတယ်။
+                </div>
+                <pre><code class="javascript">
+// Array တည်ဆောက်ခြင်း
+const fruits = ["Apple", "Banana", "Orange"];
+console.log(fruits[0]); // Output: "Apple"
+                </code></pre>
+            </section>
+
+            <!-- Slide 4: Why Array Methods -->
+            <section>
+                <h2>ဘာလို့ <span class="js-yellow">Array Methods</span> တွေသုံးတာလဲ?</h2>
+                <p>Array ထဲက Data တွေကို အလွယ်တကူ ထည့်ဖို့၊ နှုတ်ဖို့၊ ရှာဖို့၊ ပြင်ဖို့ အတွက် JavaScript က အဆင်သင့်ရေးပေးထားတဲ့ Functions (Methods) တွေ ဖြစ်ပါတယ်။</p>
+                <p class="fragment">Loops တွေအရှည်ကြီး ရေးစရာမလိုဘဲ Code ကို တိုတိုနဲ့ ရှင်းလင်းစေပါတယ်။</p>
+            </section>
+
+            <!-- Slide 5: Mutating vs Non-mutating -->
+            <section>
+                <h2 class="js-yellow">အရေးကြီးသော မှတ်သားဖွယ်</h2>
+                <ul>
+                    <li class="fragment"><b>Mutating Methods:</b> မူရင်း Array ကို ပြောင်းလဲသွားစေတဲ့ Method များ (ဥပမာ - push, pop)</li>
+                    <li class="fragment"><b>Non-Mutating Methods:</b> မူရင်း Array ကို မထိခိုက်ဘဲ Array အသစ်တစ်ခု ပြန်ထုတ်ပေးတဲ့ Method များ (ဥပမာ - map, filter)</li>
+                </ul>
+            </section>
+
+            <!-- Slide 6: Category 1 Intro -->
+            <section data-background-color="#1a1a1a">
+                <h2 class="js-yellow">အပိုင်း (၁)</h2>
+                <h3>အစ / အဆုံး ထည့်ခြင်း နှင့် ဖယ်ထုတ်ခြင်း</h3>
+                <p>(push, pop, unshift, shift)</p>
+            </section>
+
+            <!-- Slide 7: push() Theory -->
+            <section>
+                <h2>1. <span class="js-yellow">push()</span> Method</h2>
+                <p>Array ရဲ့ <b>နောက်ဆုံး</b> နေရာမှာ Data အသစ်တစ်ခု သို့မဟုတ် အများကြီး ထပ်ထည့်ချင်ရင် သုံးပါတယ်။</p>
+                <div class="highlight-box">
+                    မှတ်ချက် - ၎င်းသည် မူရင်း Array ကို ပြောင်းလဲစေပါတယ်။ (Mutates)
+                </div>
+            </section>
+
+            <!-- Slide 8: push() Code -->
+            <section>
+                <h2><span class="js-yellow">push()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const numbers = [1, 2, 3];
+
+// 4 ကို နောက်ဆုံးမှာ ထည့်မည်
+numbers.push(4); 
+
+console.log(numbers); 
+// Output: [1, 2, 3, 4]
+                </code></pre>
+            </section>
+
+            <!-- Slide 9: pop() Theory -->
+            <section>
+                <h2>2. <span class="js-yellow">pop()</span> Method</h2>
+                <p>Array ရဲ့ <b>နောက်ဆုံး</b> မှာရှိတဲ့ Data တစ်ခုကို ဖယ်ထုတ်ပစ်ချင်ရင် သုံးပါတယ်။</p>
+                <p>ဖယ်ထုတ်လိုက်တဲ့ Data ကိုလည်း Return ပြန်ပေးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 10: pop() Code -->
+            <section>
+                <h2><span class="js-yellow">pop()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const colors = ["Red", "Green", "Blue"];
+
+// နောက်ဆုံးက Blue ကို ဖယ်ထုတ်မည်
+const removedColor = colors.pop(); 
+
+console.log(colors); // Output: ["Red", "Green"]
+console.log(removedColor); // Output: "Blue"
+                </code></pre>
+            </section>
+
+            <!-- Slide 11: unshift() Theory -->
+            <section>
+                <h2>3. <span class="js-yellow">unshift()</span> Method</h2>
+                <p>Array ရဲ့ <b>အစဆုံး (ရှေ့ဆုံး)</b> နေရာမှာ Data အသစ် ထပ်ထည့်ချင်ရင် သုံးပါတယ်။</p>
+                <p>Data တွေ အကုန်လုံး နောက်ကို တစ်နေရာစီ ရွေ့သွားရတဲ့အတွက် Performance အရ အနည်းငယ် နှေးနိုင်ပါတယ်။</p>
+            </section>
+
+            <!-- Slide 12: unshift() Code -->
+            <section>
+                <h2><span class="js-yellow">unshift()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const animals = ["Dog", "Cat"];
+
+// ရှေ့ဆုံးမှာ "Elephant" ထည့်မည်
+animals.unshift("Elephant"); 
+
+console.log(animals); 
+// Output: ["Elephant", "Dog", "Cat"]
+                </code></pre>
+            </section>
+
+            <!-- Slide 13: shift() Theory -->
+            <section>
+                <h2>4. <span class="js-yellow">shift()</span> Method</h2>
+                <p>Array ရဲ့ <b>အစဆုံး (ရှေ့ဆုံး)</b> က Data တစ်ခုကို ဖယ်ထုတ်ချင်ရင် သုံးပါတယ်။</p>
+                <p>pop() လိုပါပဲ၊ ဖယ်ထုတ်လိုက်တဲ့ Data ကို Return ပြန်ပေးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 14: shift() Code -->
+            <section>
+                <h2><span class="js-yellow">shift()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const cars = ["BMW", "Toyota", "Honda"];
+
+// ရှေ့ဆုံးက BMW ကို ဖယ်ထုတ်မည်
+const firstCar = cars.shift(); 
+
+console.log(cars); // Output: ["Toyota", "Honda"]
+console.log(firstCar); // Output: "BMW"
+                </code></pre>
+            </section>
+
+            <!-- Slide 15: Category 2 Intro -->
+            <section data-background-color="#1a1a1a">
+                <h2 class="js-yellow">အပိုင်း (၂)</h2>
+                <h3>ပေါင်းခြင်း နှင့် ဖြတ်ထုတ်ခြင်း</h3>
+                <p>(concat, join, slice, splice)</p>
+            </section>
+
+            <!-- Slide 16: concat() Theory -->
+            <section>
+                <h2>5. <span class="js-yellow">concat()</span> Method</h2>
+                <p>Array နှစ်ခု သို့မဟုတ် နှစ်ခုထက်ပိုသော Array များကို ပေါင်းပြီး Array <b>အသစ်တစ်ခု</b> ဖန်တီးပေးပါတယ်။</p>
+                <div class="highlight-box">
+                    မူရင်း Array များကို မပြောင်းလဲစေပါ။ (Non-Mutating)
+                </div>
+            </section>
+
+            <!-- Slide 17: concat() Code -->
+            <section>
+                <h2><span class="js-yellow">concat()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+
+const combined = arr1.concat(arr2); 
+
+console.log(combined); // Output: [1, 2, 3, 4]
+console.log(arr1); // Output: [1, 2] (မပြောင်းလဲပါ)
+                </code></pre>
+            </section>
+
+            <!-- Slide 18: join() Theory -->
+            <section>
+                <h2>6. <span class="js-yellow">join()</span> Method</h2>
+                <p>Array ထဲမှာရှိတဲ့ Data တွေအားလုံးကို ဆက်ပြီး <b>String</b> တစ်ခုတည်းအဖြစ် ပြောင်းလဲပေးပါတယ်။</p>
+                <p>ကြားထဲမှာ ဘာစာသားနဲ့ ဆက်မလဲ ဆိုတာကို သတ်မှတ်ပေးလို့ရပါတယ်။</p>
+            </section>
+
+            <!-- Slide 19: join() Code -->
+            <section>
+                <h2><span class="js-yellow">join()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const words = ["Hello", "World", "JS"];
+
+const sentence1 = words.join(" "); 
+console.log(sentence1); // Output: "Hello World JS"
+
+const sentence2 = words.join("-");
+console.log(sentence2); // Output: "Hello-World-JS"
+                </code></pre>
+            </section>
+
+            <!-- Slide 20: slice() Theory -->
+            <section>
+                <h2>7. <span class="js-yellow">slice()</span> Method</h2>
+                <p>Array ထဲကနေ လိုချင်တဲ့ အပိုင်းကို <b>ဖြတ်ယူပြီး</b> Array အသစ်တစ်ခု ထုတ်ပေးပါတယ်။</p>
+                <p>စဖြတ်မည့် Index နှင့် ဆုံးမည့် Index (ထို Index မပါ) ကို ထည့်ပေးရပါတယ်။ မူရင်းကို မထိခိုက်ပါ။</p>
+            </section>
+
+            <!-- Slide 21: slice() Code -->
+            <section>
+                <h2><span class="js-yellow">slice()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const letters = ["A", "B", "C", "D", "E"];
+
+// Index 1 ကနေ စဖြတ်မယ်၊ 3 မှာဆုံးမယ် (3 မပါဝင်ပါ)
+const sliced = letters.slice(1, 3); 
+
+console.log(sliced); // Output: ["B", "C"]
+console.log(letters); // Output: ["A", "B", "C", "D", "E"]
+                </code></pre>
+            </section>
+
+            <!-- Slide 22: splice() Theory -->
+            <section>
+                <h2>8. <span class="js-yellow">splice()</span> Method</h2>
+                <p>Array ထဲက Data တွေကို <b>ဖျက်တာ၊ အစားထိုးတာ၊ အသစ်ထည့်တာ</b> တွေ အကုန်လုပ်လို့ရတဲ့ အစွမ်းထက် Method ဖြစ်ပါတယ်။</p>
+                <div class="highlight-box">
+                    သတိပြုရန် - မူရင်း Array ကို တိုက်ရိုက် ပြောင်းလဲစေပါတယ်။ (Mutates)
+                </div>
+            </section>
+
+            <!-- Slide 23: splice() Code -->
+            <section>
+                <h2><span class="js-yellow">splice()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const months = ["Jan", "March", "April"];
+
+// Index 1 မှာ 0 ခုဖျက်ပြီး "Feb" ကို ထည့်မည်
+months.splice(1, 0, "Feb");
+console.log(months); // Output: ["Jan", "Feb", "March", "April"]
+
+// Index 2 ကနေစပြီး 1 ခု ဖျက်မည်
+months.splice(2, 1);
+console.log(months); // Output: ["Jan", "Feb", "April"]
+                </code></pre>
+            </section>
+
+            <!-- Slide 24: Category 3 Intro -->
+            <section data-background-color="#1a1a1a">
+                <h2 class="js-yellow">အပိုင်း (၃)</h2>
+                <h3>Data များ ရှာဖွေခြင်း</h3>
+                <p>(indexOf, lastIndexOf, includes, find, findIndex)</p>
+            </section>
+
+            <!-- Slide 25: indexOf() Theory -->
+            <section>
+                <h2>9. <span class="js-yellow">indexOf()</span> Method</h2>
+                <p>Array ထဲမှာ ကိုယ်ရှာချင်တဲ့ Data ရှိ/မရှိ ရှာပေးပြီး၊ ရှိရင် သူရဲ့ <b>ပထမဆုံး တွေ့တဲ့ Index Number</b> ကို ပြန်ပေးပါတယ်။</p>
+                <p>မရှိရင်တော့ `-1` ကို ပြန်ပေးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 26: indexOf() Code -->
+            <section>
+                <h2><span class="js-yellow">indexOf()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const names = ["Aung", "Kyaw", "Mya", "Kyaw"];
+
+console.log(names.indexOf("Kyaw")); 
+// Output: 1 (ပထမဆုံးတွေ့တဲ့ နေရာ)
+
+console.log(names.indexOf("Su")); 
+// Output: -1 (မရှိပါ)
+                </code></pre>
+            </section>
+
+            <!-- Slide 27: lastIndexOf() Theory -->
+            <section>
+                <h2>10. <span class="js-yellow">lastIndexOf()</span> Method</h2>
+                <p>`indexOf()` နဲ့ တူတူပါပဲ၊ ဒါပေမယ့် သူက အနောက်ကနေ စရှာတာဖြစ်လို့ <b>နောက်ဆုံးတွေ့တဲ့ Index Number</b> ကို ပြန်ပေးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 28: lastIndexOf() Code -->
+            <section>
+                <h2><span class="js-yellow">lastIndexOf()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const names = ["Aung", "Kyaw", "Mya", "Kyaw"];
+
+// အနောက်ကနေ စရှာမည်
+console.log(names.lastIndexOf("Kyaw")); 
+// Output: 3 
+                </code></pre>
+            </section>
+
+            <!-- Slide 29: includes() Theory -->
+            <section>
+                <h2>11. <span class="js-yellow">includes()</span> Method</h2>
+                <p>Array ထဲမှာ ကိုယ်ရှာတဲ့ Data <b>ပါသလား/မပါဘူးလား</b> ဆိုတာကိုပဲ True သို့မဟုတ် False နဲ့ တိတိကျကျ ပြန်ပြောပေးပါတယ်။</p>
+                <p>Condition (if/else) တွေရေးတဲ့အခါ သုံးရအရမ်းကောင်းပါတယ်။</p>
+            </section>
+
+            <!-- Slide 30: includes() Code -->
+            <section>
+                <h2><span class="js-yellow">includes()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const fruits = ["Apple", "Mango", "Banana"];
+
+console.log(fruits.includes("Mango")); 
+// Output: true
+
+console.log(fruits.includes("Grape")); 
+// Output: false
+                </code></pre>
+            </section>
+
+            <!-- Slide 31: find() Theory -->
+            <section>
+                <h2>12. <span class="js-yellow">find()</span> Method</h2>
+                <p>Array ထဲက Data တွေကို Function တစ်ခုနဲ့ စစ်ဆေးပြီး၊ သတ်မှတ်ချက်နဲ့ ကိုက်ညီတဲ့ <b>ပထမဆုံး Data တစ်ခုတည်းကိုသာ</b> ပြန်ထုတ်ပေးပါတယ်။</p>
+                <p>Object တွေပါတဲ့ Array တွေမှာ အများဆုံး သုံးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 32: find() Code -->
+            <section>
+                <h2><span class="js-yellow">find()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const numbers = [5, 12, 8, 130, 44];
+
+// 10 ထက်ကြီးတဲ့ ပထမဆုံး ဂဏန်းကို ရှာမည်
+const found = numbers.find(num => num > 10);
+
+console.log(found); 
+// Output: 12 (130, 44 တို့လည်းကြီးသော်လည်း ပထမဆုံးကိုသာယူသည်)
+                </code></pre>
+            </section>
+
+            <!-- Slide 33: findIndex() Theory -->
+            <section>
+                <h2>13. <span class="js-yellow">findIndex()</span> Method</h2>
+                <p>`find()` နဲ့ အလုပ်လုပ်ပုံတူပါတယ်။ ဒါပေမယ့် Data ကို ပြန်မပေးဘဲ အဲဒီ Data ရဲ့ <b>Index Number</b> ကိုသာ ပြန်ပေးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 34: findIndex() Code -->
+            <section>
+                <h2><span class="js-yellow">findIndex()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const numbers = [5, 12, 8, 130, 44];
+
+// 10 ထက်ကြီးတဲ့ ပထမဆုံး ဂဏန်းရဲ့ Index ကို ရှာမည်
+const index = numbers.findIndex(num => num > 10);
+
+console.log(index); 
+// Output: 1 (12 ရဲ့ နေရာ Index ဖြစ်သည်)
+                </code></pre>
+            </section>
+
+            <!-- Slide 35: Category 4 Intro -->
+            <section data-background-color="#1a1a1a">
+                <h2 class="js-yellow">အပိုင်း (၄)</h2>
+                <h3>ပတ်လည်လှည့်ခြင်း နှင့် ပြောင်းလဲခြင်း</h3>
+                <p>(forEach, map, filter, reduce, some, every)</p>
+            </section>
+
+            <!-- Slide 36: forEach() Theory -->
+            <section>
+                <h2>14. <span class="js-yellow">forEach()</span> Method</h2>
+                <p>Array ထဲမှာရှိတဲ့ Data တစ်ခုချင်းစီအတွက် Function တစ်ခုကို အစဉ်လိုက် ခေါ်သုံးပေးပါတယ်။ (for loop သုံးသလိုမျိုးပါပဲ)</p>
+                <div class="highlight-box">
+                    သူက ဘာမှ Return ပြန်မပေးပါဘူး (undefined)။ Action တစ်ခုခု လုပ်ဖို့အတွက်သာ သုံးပါတယ်။
+                </div>
+            </section>
+
+            <!-- Slide 37: forEach() Code -->
+            <section>
+                <h2><span class="js-yellow">forEach()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const students = ["Aung", "Mya", "Hla"];
+
+students.forEach((student, index) => {
+    console.log(`${index + 1}: ${student}`);
+});
+// Output: 
+// 1: Aung
+// 2: Mya
+// 3: Hla
+                </code></pre>
+            </section>
+
+            <!-- Slide 38: map() Theory -->
+            <section>
+                <h2>15. <span class="js-yellow">map()</span> Method</h2>
+                <p>Array ထဲက Data တွေကို Function နဲ့ ပြုပြင်ပြောင်းလဲပြီး၊ ရလာတဲ့ ရလဒ်တွေနဲ့ <b>Array အသစ်တစ်ခု</b> ဖန်တီးပေးပါတယ်။</p>
+                <p>React လို Framework တွေမှာ UI Render လုပ်ဖို့ အသုံးအများဆုံး Method ဖြစ်ပါတယ်။</p>
+            </section>
+
+            <!-- Slide 39: map() Code -->
+            <section>
+                <h2><span class="js-yellow">map()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const numbers = [1, 2, 3, 4];
+
+// ဂဏန်းတိုင်းကို ၂ ဆ တိုးမည်
+const doubled = numbers.map(num => num * 2);
+
+console.log(doubled); // Output: [2, 4, 6, 8]
+console.log(numbers); // မူရင်း Array မပြောင်းလဲပါ
+                </code></pre>
+            </section>
+
+            <!-- Slide 40: filter() Theory -->
+            <section>
+                <h2>16. <span class="js-yellow">filter()</span> Method</h2>
+                <p>ကိုယ်သတ်မှတ်ထားတဲ့ Condition (အခြေအနေ) နဲ့ ကိုက်ညီတဲ့ (True ဖြစ်တဲ့) Data တွေကိုပဲ စစ်ထုတ်ပြီး <b>Array အသစ်</b> ဖန်တီးပေးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 41: filter() Code -->
+            <section>
+                <h2><span class="js-yellow">filter()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const ages = [15, 22, 18, 10, 30];
+
+// အသက် ၁၈ နှစ်နှင့်အထက်များကိုသာ စစ်ထုတ်မည်
+const adults = ages.filter(age => age >= 18);
+
+console.log(adults); 
+// Output: [22, 18, 30]
+                </code></pre>
+            </section>
+
+            <!-- Slide 42: reduce() Theory -->
+            <section>
+                <h2>17. <span class="js-yellow">reduce()</span> Method</h2>
+                <p>Array ထဲက Data တွေအားလုံးကို တွက်ချက်ပြီး <b>တန်ဖိုး တစ်ခုတည်း (Single Value)</b> ရအောင် လျှော့ချ (Reduce) ပေးပါတယ်။</p>
+                <p>ဥပမာ - ကိန်းဂဏန်းတွေ အားလုံးပေါင်းချင်တဲ့အခါ သုံးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 43: reduce() Code -->
+            <section>
+                <h2><span class="js-yellow">reduce()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const numbers = [10, 20, 30];
+
+// အားလုံးကို ပေါင်းမည် (Total)
+const sum = numbers.reduce((total, current) => {
+    return total + current;
+}, 0); // 0 သည် စတင်မည့် တန်ဖိုးဖြစ်သည်
+
+console.log(sum); 
+// Output: 60
+                </code></pre>
+            </section>
+
+            <!-- Slide 44: some() Theory -->
+            <section>
+                <h2>18. <span class="js-yellow">some()</span> Method</h2>
+                <p>Array ထဲမှာ ကိုယ်သတ်မှတ်ထားတဲ့ Condition နဲ့ ကိုက်ညီတဲ့ Data <b>အနည်းဆုံး တစ်ခု</b> ရှိသလား ဆိုတာကို စစ်ပေးပါတယ်။ (True / False ပြန်ပေးပါတယ်)</p>
+            </section>
+
+            <!-- Slide 45: some() Code -->
+            <section>
+                <h2><span class="js-yellow">some()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const scores = [45, 50, 39, 80];
+
+// အမှတ် ၈၀ အထက် အနည်းဆုံး တစ်ယောက်ရှိသလား?
+const hasDistinction = scores.some(score => score >= 80);
+
+console.log(hasDistinction); 
+// Output: true
+                </code></pre>
+            </section>
+
+            <!-- Slide 46: every() Theory -->
+            <section>
+                <h2>19. <span class="js-yellow">every()</span> Method</h2>
+                <p>Array ထဲက Data <b>အားလုံး</b> ကိုယ်သတ်မှတ်ထားတဲ့ Condition နဲ့ ကိုက်ညီမှသာ True ပြန်ပေးပါတယ်။ တစ်ခုလေး မှားတာနဲ့ False ပြန်ပေးပါတယ်။</p>
+            </section>
+
+            <!-- Slide 47: every() Code -->
+            <section>
+                <h2><span class="js-yellow">every()</span> - ဥပမာ</h2>
+                <pre><code class="javascript">
+const ages = [20, 25, 30, 15];
+
+// အားလုံး အသက် ၁၈ နှစ်အထက် ဖြစ်သလား?
+const allAdults = ages.every(age => age >= 18);
+
+console.log(allAdults); 
+// Output: false (15 ပါနေသောကြောင့်)
+                </code></pre>
+            </section>
+
+            <!-- Slide 48: Category 5 Intro & sort() -->
+            <section data-background-color="#1a1a1a">
+                <h2 class="js-yellow">အပိုင်း (၅)</h2>
+                <h3>စီစဉ်ခြင်း (Sorting & Reversing)</h3>
+                <br>
+                <h2>20. <span class="js-yellow">sort()</span> Method</h2>
+                <p>Array ကို အက္ခရာစဉ် (သို့) ကိန်းဂဏန်း အစဉ်လိုက် စီပေးပါတယ်။ (Mutates)</p>
+                <pre><code class="javascript">
+const fruits = ["Banana", "Apple", "Orange"];
+fruits.sort();
+console.log(fruits); // Output: ["Apple", "Banana", "Orange"]
+                </code></pre>
+            </section>
+
+            <!-- Slide 49: reverse() -->
+            <section>
+                <h2>21. <span class="js-yellow">reverse()</span> Method</h2>
+                <p>Array ထဲက Data တွေကို လက်ရှိ အစဉ်လိုက်ကနေ <b>ပြောင်းပြန် (Reverse)</b> လှန်ပစ်ပါတယ်။ (Mutates)</p>
+                <pre><code class="javascript">
+const numbers = [1, 2, 3, 4, 5];
+numbers.reverse();
+
+console.log(numbers); 
+// Output: [5, 4, 3, 2, 1]
+                </code></pre>
+            </section>
+
+            <!-- Slide 50: Conclusion & Thank You -->
+            <section>
+                <i class="fas fa-check-circle" style="font-size: 80px; color: #4CAF50; margin-bottom: 20px;"></i>
+                <h2 class="js-yellow">နိဂုံးချုပ်</h2>
+                <p>JavaScript မှာ Array Methods တွေကို သေချာနားလည်ထားခြင်းဖြင့် Code ရေးရတာ ပိုမိုလွယ်ကူ မြန်ဆန်လာစေမှာ ဖြစ်ပါတယ်။</p>
+                <h3>ကျေးဇူးတင်ပါသည်!</h3>
+                <p><small>မေးစရာများရှိပါက မေးမြန်းနိုင်ပါသည်။</small></p>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js Core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <!-- Highlight.js Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    
+    <script>
+        // Initialize Reveal.js with optimized settings for readability
+        Reveal.initialize({
+            width: 1100,            // မြင်ကွင်းကျယ်အောင် Size ပိုကြီးထားပါတယ်
+            height: 750,
+            margin: 0.1,
+            minScale: 0.2,
+            maxScale: 2.0,
+            hash: true,             // URL မှာ Page Number ပေါ်ရန်
+            transition: 'convex',   // Animation Effect အနေနဲ့ Convex ကို သုံးထားပါတယ်
+            slideNumber: 'c/t',     // Slide Number ပြရန်
+            plugins: [ RevealHighlight ] // Code Highlight ပြရန်
+        });
+    </script>
+</body>
+</html>
